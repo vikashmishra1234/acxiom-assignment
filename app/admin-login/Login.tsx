@@ -4,15 +4,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function LoginPage() {
+export default function Login() {
   const [userId, setUserId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const router = useRouter()
+  const navigate = useRouter()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert('login success')
-    router.push('/admin-home')
+    navigate.push('/admin-home')
     console.log('User ID:', userId, 'Password:', password);
     // Add authentication logic here
   };
@@ -20,10 +20,10 @@ export default function LoginPage() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">User Login</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">Admin Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">User ID</label>
+            <label className="block text-gray-700">admin ID</label>
             <input
               type="text"
               className="w-full p-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -49,7 +49,7 @@ export default function LoginPage() {
             Login
           </button>
         </form>
-        <Link className='text-center w-full text-blue-400 underline' href={'/admin-login'}>admin login</Link>
+        <Link className='text-center w-full mx-auto text-blue-400 underline' href={'/'}>user login</Link>
       </div>
     </div>
   );
