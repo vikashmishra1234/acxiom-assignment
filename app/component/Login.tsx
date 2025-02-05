@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -9,17 +10,28 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>('');
 
   const router = useRouter()
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    alert('login success')
-    router.push('/admin-home')
-    console.log('User ID:', userId, 'Password:', password);
-    // Add authentication logic here
+    const res = await axios.post('/api/login',{userId:userId,password,role:'user'})
+    if(res?.data?.message){
+      
+        sessionStorage.setItem("token",res.data.token)
+        sessionStorage.setItem("role",res.data.role)
+        alert('login success')
+        router.push('/user-home')
+    }
+    else{
+      alert("login failed")
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-md">
+        <div>
+          <p>UserId: 12345678</p>
+          <p>Pass: 12345678</p>
+        </div>
         <h2 className="text-2xl font-semibold text-center mb-6">User Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

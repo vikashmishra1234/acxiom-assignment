@@ -3,20 +3,7 @@ import { databases, ID } from "@/lib/appwrite";
 import { useState } from "react";
 
 export default function MaintenancePage() {
-  const [menuItems, setMenuItems] = useState([
-    {
-      category: "Membership",
-      actions: ["Add",],
-    },
-    {
-      category: "Books/Movies",
-      actions: ["Add",],
-    },
-    {
-      category: "User Management",
-      actions: ["Add"],
-    },
-  ]);
+ 
 
   const [formState, setFormState] = useState({
     type: "Book",
@@ -46,7 +33,7 @@ export default function MaintenancePage() {
   
         console.log("Data added:", response);
         alert("Data successfully saved!");
-        // setFormData({ name: "", email: "" }); // Clear form
+        // setFormData({ name: "", email: "" }); // Clear formcls
       } catch (error) {
         console.error("Error:", error);
         alert("Failed to save data.");

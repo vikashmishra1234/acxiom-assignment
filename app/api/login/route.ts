@@ -1,29 +1,49 @@
-// routes.ts
-import { NextApiRequest, NextApiResponse } from 'next';
+import connectToDatabase from "@/lib/dbConnect";
+import User from "@/models/User";
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-// Placeholder user data
-const users = [
-  { id: 1, username: 'admin', password: 'password', role: 'admin' },
-  { id: 2, username: 'user', password: 'password', role: 'user' },
-];
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"; // Use a secure environment variable
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === 'POST') {
-    const { username, password } = req.body;
+export async function POST(req: Request) {
+  try {
+    console.log("logging In...")
+    await connectToDatabase();
+    const { userId, password,role } = await req.json();
 
-    // Find the user by username
-    const user = users.find((u) => u.username === username);
-
-    if (user && user.password === password) {
-      // Return the user's information (id, role)
-      res.status(200).json({ userId: user.id, role: user.role });
-    } else {
-      res.status(401).json({ error: 'Invalid username or password' });
+    if (!userId || !password) {
+      return NextResponse.json({ error: "User ID and password are required" }, { status: 400 });
     }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
+
+    const existingUser = await User.findOne({ userId });
+    if (!existingUser) {
+
+      return NextResponse.json({ error: "User does not exist" }, { status: 404 });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+    if (!isPasswordValid) {
+      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    }
+
+    // Generate JWT Token with role
+    const token = jwt.sign(
+      { userId: existingUser.userId, role: existingUser.role }, // Include role in token
+      JWT_SECRET,
+      { expiresIn: "7d" } 
+    );
+
+    // Set token & role in HTTP-only cookies
+    const response = NextResponse.json({ message: "Login successful" });
+   
+    response.cookies.set("token", token, { httpOnly: true, secure: true, path: "/" });
+    response.cookies.set("role", role, { httpOnly: true, secure: true, path: "/" });
+    console.log("✅ Cookie Set: ", response.cookies.get("token")); 
+
+    return response;
+  } catch (error: any) {
+    console.log(error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

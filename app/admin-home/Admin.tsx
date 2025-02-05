@@ -1,10 +1,7 @@
 import { fetchBooks } from '@/lib/fetchBooks';
 import React, { FC } from 'react';
 
-interface Book {
-  code: string;
-  name: string;
-}
+
 
 const Admin: FC = async () => {
   const books: any = await fetchBooks();
