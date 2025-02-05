@@ -1,12 +1,14 @@
 import React from 'react'
 import AdminTop from '../component/AdminTop'
+import Admin from '../admin-home/Admin'
+import Topbar from '../component/Topbar'
 
 const page = () => {
   return (
     <div>
-      <AdminTop/>
-      <p>please logout and login as admin</p>
-      <p>this page is under process</p>
+      {/* <AdminTop/> */}
+      <Topbar/>
+      <Admin/>
     </div>
   )
 }

@@ -12,7 +12,7 @@ export default function page() {
       actions: ["Add"],
     },
     {
-      category: "Books/Movies",
+      category: "Books",
       actions: ["Add"],
     },
     {
@@ -29,14 +29,7 @@ export default function page() {
           <h1 className="text-xl font-bold">Maintenance</h1>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-1 border-r pr-4">
-            <h2 className="text-lg font-semibold mb-2">Chart</h2>
-            <ul>
-              <li className="mb-2">Home</li>
-              <li className="mb-2">Housekeeping</li>
-            </ul>
-          </div>
+        
           <div className="col-span-1">
             <h2 className="text-lg font-semibold mb-4">Housekeeping</h2>
             <table className="w-full border-collapse border border-gray-300">
@@ -63,10 +56,10 @@ export default function page() {
             </table>
           </div>
         </div>
+        {
+          showForm=='Membership'?<MembershipForm/>:showForm==''?'':<MaintenancePage/>
+        }
       </div>
-      {
-        showForm=='Membership'?<MembershipForm/>:showForm==''?'':<MaintenancePage/>
-      }
-    </div>
+   
   );
 }

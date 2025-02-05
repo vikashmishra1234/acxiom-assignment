@@ -1,3 +1,4 @@
+import { databases, ID } from "@/lib/appwrite";
 import { useState } from "react";
 
 export default function MembershipForm() {
@@ -21,10 +22,10 @@ export default function MembershipForm() {
     lastName: "",
     contactName: "",
     contactAddress: "",
-    adadharCardNo: "",
+    aadharNumber: "",
     startDate: "",
     endDate: "",
-    membershipDuration: "six months",
+    duration: "six months",
   });
 
   const handleMembershipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,24 @@ export default function MembershipForm() {
       [name]: value,
     });
   };
+const handleSubmit =  async(e:any)=>{
+  e.preventDefault()
+  try {
+    const response = await databases.createDocument(
+      '67a21c08002206b2296b', // Replace with your Database ID
+      '67a309dd003361b8c34e', // Replace with your Collection ID
+      ID.unique(), // Auto-generate a unique document ID
+      membershipForm
+    );
 
+    console.log("Data added:", response);
+    alert("Data successfully saved!");
+    // setFormData({ name: "", email: "" }); // Clear formcls
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Failed to save data.");
+  }
+}
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
@@ -44,7 +62,7 @@ export default function MembershipForm() {
          
           <div className="col-span-1">
             <h2 className="text-lg font-semibold mb-4">Add Membership</h2>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block font-medium mb-2">First Name</label>
                 <input
@@ -89,8 +107,8 @@ export default function MembershipForm() {
                 <label className="block font-medium mb-2">Adadhar Card No</label>
                 <input
                   type="text"
-                  name="adadharCardNo"
-                  value={membershipForm.adadharCardNo}
+                  name="aadharNumber"
+                  value={membershipForm.aadharNumber}
                   onChange={handleMembershipChange}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2"
                 />
@@ -121,9 +139,9 @@ export default function MembershipForm() {
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      name="membershipDuration"
+                      name="duration"
                       value="six months"
-                      checked={membershipForm.membershipDuration === "six months"}
+                      checked={membershipForm.duration === "six months"}
                       onChange={handleMembershipChange}
                       className="mr-2"
                     />
@@ -132,9 +150,9 @@ export default function MembershipForm() {
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      name="membershipDuration"
+                      name="duration"
                       value="one year"
-                      checked={membershipForm.membershipDuration === "one year"}
+                      checked={membershipForm.duration === "one year"}
                       onChange={handleMembershipChange}
                       className="mr-2"
                     />
@@ -143,9 +161,9 @@ export default function MembershipForm() {
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      name="membershipDuration"
+                      name="duration"
                       value="two years"
-                      checked={membershipForm.membershipDuration === "two years"}
+                      checked={membershipForm.duration === "two years"}
                       onChange={handleMembershipChange}
                       className="mr-2"
                     />

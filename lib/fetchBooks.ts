@@ -5,7 +5,7 @@ export async function fetchBooks() {
   try {
     const response = await databases.listDocuments(
      "67a21c08002206b2296b", // Replace with your Database ID
-          "67a21c19000b9fa708ef",// Replace with your Collection ID
+          "67a3048e00158398961f",// Replace with your Collection ID
     );
 
     return response.documents; // Returns an array of documents

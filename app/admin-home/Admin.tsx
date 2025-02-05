@@ -21,10 +21,10 @@ const Admin: FC = async () => {
             </tr>
           </thead>
           <tbody>
-            {books.map((book:any) => (
-              <tr key={book.code} className="border-b">
-                <td className="px-4 py-2">{book.code}</td>
-                <td className="px-4 py-2">{book.code}</td>
+            {books.map((book:any,ind:number) => (
+              <tr key={ind}  className="border-b">
+                <td className="px-4 py-2">{book.codeFrom}</td>
+                <td className="px-4 py-2">{book.codeTo}</td>
                 <td className="px-4 py-2">{book.name}</td>
               </tr>
             ))}

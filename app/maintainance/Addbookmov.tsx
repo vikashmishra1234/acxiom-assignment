@@ -6,11 +6,12 @@ export default function MaintenancePage() {
  
 
   const [formState, setFormState] = useState({
-    type: "Book",
+    
     name: "",
     author: "",
     quantity: 1,
-    code:""
+    codeFrom:"",
+    codeTo:"",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +26,8 @@ export default function MaintenancePage() {
     console.log(formState)
     try {
         const response = await databases.createDocument(
-          "67a21c08002206b2296b", // Replace with your Database ID
-          "67a21c19000b9fa708ef", // Replace with your Collection ID
+          '67a21c08002206b2296b', // Replace with your Database ID
+          '67a3048e00158398961f', // Replace with your Collection ID
           ID.unique(), // Auto-generate a unique document ID
           formState
         );
@@ -54,7 +55,7 @@ export default function MaintenancePage() {
                       type="radio"
                       name="type"
                       value="Book"
-                      checked={formState.type === "Book"}
+                      // checked={formState.type === "Book"}
                       onChange={handleInputChange}
                       className="mr-2"
                     />
@@ -65,7 +66,7 @@ export default function MaintenancePage() {
                       type="radio"
                       name="type"
                       value="Movie"
-                      checked={formState.type === "Movie"}
+                      // checked={formState.type === "Movie"}
                       onChange={handleInputChange}
                       className="mr-2"
                     />
@@ -94,11 +95,21 @@ export default function MaintenancePage() {
                 />
               </div>
               <div>
-              <label className="block font-medium mb-2">Code of the book</label>
+              <label className="block font-medium mb-2">Code No From</label>
                 <input
                   type="text"
-                  name="code"
-                  value={formState.code}
+                  name="codeFrom"
+                  value={formState.codeFrom}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+              <div>
+              <label className="block font-medium mb-2">Code No To</label>
+                <input
+                  type="text"
+                  name="codeTo"
+                  value={formState.codeTo}
                   onChange={handleInputChange}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2"
                 />
